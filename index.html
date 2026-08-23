@@ -1,0 +1,142 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omachee — it's pronounced OMACHEE</title>
+<meta name="description" content="Yes, it's pronounced OMACHEE, but we spell it OMARCHY. The R is silent.">
+<link rel="icon" href="https://omarchy.org/assets/images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;700&display=swap">
+<style>
+  /* Palette lifted from omarchy.org/assets/css/root.css (Tokyo Night). */
+  :root {
+    --background: rgb(26, 27, 38);
+    --blue:       rgb(122, 162, 247);
+    --cyan:       rgb(125, 207, 255);
+    --green:      rgb(158, 206, 106);
+    --dim:        rgb(65, 72, 104);
+    --white:      rgb(255, 255, 255);
+    --font-family: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    background-image: url("background.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--blue);
+    font-family: var(--font-family);
+    font-weight: 300;
+    line-height: 1.5;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  p {
+    font-size: clamp(1.125rem, 3.5vw, 2rem);
+    max-width: 24ch;
+  }
+
+  b { font-weight: 700; }
+  .them { color: var(--cyan); }
+  .us   { color: var(--green); }
+
+  /* The joke: the R is there, just barely. */
+  .r { color: var(--dim); font-weight: 300; }
+
+  a {
+    color: var(--cyan);
+    font-weight: 700;
+    font-size: clamp(0.875rem, 1.75vw, 1rem);
+    text-decoration-thickness: 0.0875em;
+    text-underline-offset: 0.25em;
+    transition: color 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  /* Speaker button sits on the baseline next to OMARCHY. */
+  .say {
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin-left: 0.25em;
+    cursor: pointer;
+    color: var(--dim);
+    vertical-align: -0.15em;
+    transition: color 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .say svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+  }
+
+  /* Keeps the word, the speaker and the full stop on one line — the period
+     was wrapping on its own. */
+  .nb { white-space: nowrap; }
+
+  .say:focus-visible { outline: 2px solid var(--cyan); outline-offset: 0.25em; }
+  .say.playing { color: var(--green); }
+
+  @media (hover: hover) {
+    a:hover { color: var(--white); }
+    .say:hover { color: var(--cyan); }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .say { transition: none; } }
+</style>
+</head>
+<body>
+  <p>
+    Yes, it's pronounced <b class="them">OMACHEE</b>,
+    but we spell it <span class="nb"><b class="us">OMA<span class="r">R</span>CHY</b><button
+      class="say" type="button" aria-label="Hear it pronounced: oh-mah-chee">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+        <path d="M19 5a10 10 0 0 1 0 14"/>
+      </svg>
+    </button>.</span>
+    The R is silent.
+  </p>
+  <a href="https://omarchy.org/">omarchy.org&nbsp;&rarr;</a>
+  <audio id="clip" src="oh-mah-chee.mp3" preload="auto"></audio>
+  <script>
+    const button = document.querySelector('.say');
+    const clip = document.getElementById('clip');
+
+    button.addEventListener('click', () => {
+      clip.currentTime = 0;
+      clip.play().catch(() => {});
+    });
+
+    clip.addEventListener('playing', () => button.classList.add('playing'));
+    ['ended', 'pause', 'error'].forEach(e =>
+      clip.addEventListener(e, () => button.classList.remove('playing')));
+  </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"b083c948c512489b9d52d620fe86549e","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
